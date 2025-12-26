@@ -9,7 +9,7 @@ export default async function HasilPage() {
     include: { karyawan: true }
   });
 
-  const formattedResults = results.map(r => ({
+  const formattedResults = results.map((r: any) => ({
     id: r.id,
     karyawanId: r.karyawanId,
     nama_karyawan: r.karyawan.nama_karyawan,
