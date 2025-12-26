@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     }
 
     // Gunakan transaksi untuk update bulk
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: any) => {
       // 1. Hapus semua data penilaian lama terlebih dahulu
       await tx.penilaian.deleteMany();
 
