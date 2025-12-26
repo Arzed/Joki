@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Karyawan {
+  id            Int         @id @default(autoincrement())
+  nama_karyawan String
+  jabatan       String
+  penilaian     Penilaian[]
+  hasilTopsis   HasilTopsis?
+}
+
+model Kriteria {
+  id            Int         @id @default(autoincrement())
+  nama_kriteria String
+  bobot         Float
+  tipe          String      // "Benefit" or "Cost"
+  penilaian     Penilaian[]
+}
+
+model Penilaian {
+  id         Int      @id @default(autoincrement())
+  nilai      Float
+  karyawanId Int
+  kriteriaId Int
+  karyawan   Karyawan @relation(fields: [karyawanId], references: [id], onDelete: Cascade)
+  kriteria   Kriteria @relation(fields: [kriteriaId], references: [id], onDelete: Cascade)
+
+  @@unique([karyawanId, kriteriaId])
+}
+
+model HasilTopsis {
+  id           Int      @id @default(autoincrement())
+  skor         Float
+  rank         Int
+  karyawanId   Int      @unique
+  karyawan     Karyawan @relation(fields: [karyawanId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+}
